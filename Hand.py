@@ -4,13 +4,13 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from djitellopy import tello
 
-drone = tello.Tello()
 
 class Hand:
     def __int__(self, commands):
         self.commands = commands
 
-    def motion(*commands):
+    def motion(self):
+        drone = tello.Tello()
         actions = ['forward', 'back', 'left', 'right', 'up', 'down']
         seq_length = 30
 
@@ -88,25 +88,25 @@ class Hand:
                     if action_seq[-1] == action_seq[-2] == action_seq[-3]:
                         this_action = action
 
-                        if last_action != this_action:
-                            if commands[1] == '앞으로':
-                                if this_action == 'forward':
-                                    drone.send_rc_control(0,8,0,0)
-                            elif commands[1] == '뒤로':
-                                if this_action == 'back':
-                                    drone.send_rc_control(0, -8, 0, 0)
-                            elif commands[1] == '왼쪽':
-                                if this_action == 'left':
-                                    drone.send_rc_control(-8, 0, 0, 0)
-                            elif commands[1] == '오른쪽':
-                                if this_action == 'right':
-                                    drone.send_rc_control(8, 0, 0, 0)
-                            elif commands[1] == '위':
-                                if this_action == 'up':
-                                    drone.send_rc_control(0, 0, 8, 0)  # 위로 이동
-                            elif commands[1] == '아래':
-                                if this_action == 'down':
-                                    drone.send_rc_control(0, 0, -8, 0)  # 위로 이동
+                        if this_action:
+                            if this_action == 'forward':
+                                drone.send_rc_control(0,10,0,0)
+
+                            elif this_action == 'back':
+                                drone.send_rc_control(0, -10, 0, 0)
+
+                            elif this_action == 'left':
+                                drone.send_rc_control(-10, 0, 0, 0)
+
+                            elif this_action == 'right':
+                                drone.send_rc_control(10, 0, 0, 0)
+
+                            elif this_action == 'up':
+                                drone.send_rc_control(0, 0, 10, 0)  # 위로 이동
+
+                            elif this_action == 'down':
+                                drone.send_rc_control(0, 0, -10, 0)  # 위로 이동
+
                             last_action = this_action
 
 
