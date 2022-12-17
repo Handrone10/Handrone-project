@@ -28,6 +28,7 @@ class Hand:
 
         seq = []
         action_seq = []
+        last_action = None
 
         while cap.isOpened():
             ret, img = cap.read()
