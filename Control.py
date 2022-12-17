@@ -11,10 +11,5 @@ command = c.Command()
 
 if command == '이륙':
     drone.takeoff()
-    while True:
-        command = c.Command()
-        if command == '착륙':
-            drone.land()
-        elif command:
-            x = Handy.Hand()
-            x.motion(command)
+    x= Handy.Hand()
+    x.motion()
