@@ -4,13 +4,13 @@ import numpy as np
 from tensorflow.keras.models import load_model
 from djitellopy import tello
 
-drone = tello.Tello()  # 드론객체 생성
+drone = tello.Tello()
 
 class Hand:
-    def __int__(self, command=None):
-        self.command = command
+    def __int__(self, commands):
+        self.commands = commands
 
-    def motion(self):
+    def motion(*commands):
         actions = ['forward', 'back', 'left', 'right', 'up', 'down']
         seq_length = 30
 
@@ -89,19 +89,24 @@ class Hand:
                         this_action = action
 
                         if last_action != this_action:
-                            if self.command:
-                                if this_action == 'foward' and self.command == '앞으로':
-                                    drone.send_rc_control(0,1,0,0)
-                                elif this_action == 'back' and self.command == '뒤로':
-                                    drone.send_rc_control(0, -1, 0, 0)
-                                elif this_action == 'left' and self.command == '왼쪽':
-                                    drone.send_rc_control(-1, 0, 0, 0)
-                                elif this_action == 'right' and self.command == '오른쪽':
-                                    drone.send_rc_control(1, 0, 0, 0)
-                                elif this_action == 'up' and self.command == '위':
-                                    drone.send_rc_control(0, 0, 1, 0)  # 위로 이동
-                                elif this_action == 'down' and self.command == '아래':
-                                    drone.send_rc_control(0, 0, -1, 0)  # 위로 이동
+                            if commands[1] == '앞으로':
+                                if this_action == 'forward':
+                                    drone.send_rc_control(0,8,0,0)
+                            elif commands[1] == '뒤로':
+                                if this_action == 'back':
+                                    drone.send_rc_control(0, -8, 0, 0)
+                            elif commands[1] == '왼쪽':
+                                if this_action == 'left':
+                                    drone.send_rc_control(-8, 0, 0, 0)
+                            elif commands[1] == '오른쪽':
+                                if this_action == 'right':
+                                    drone.send_rc_control(8, 0, 0, 0)
+                            elif commands[1] == '위':
+                                if this_action == 'up':
+                                    drone.send_rc_control(0, 0, 8, 0)  # 위로 이동
+                            elif commands[1] == '아래':
+                                if this_action == 'down':
+                                    drone.send_rc_control(0, 0, -8, 0)  # 위로 이동
                             last_action = this_action
 
 
