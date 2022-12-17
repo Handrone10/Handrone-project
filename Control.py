@@ -1,19 +1,20 @@
-from djitellopy import Tello
 import Voicy
 import Handy
+from djitellopy import tello
 
-Hand = Handy.Hand_value()
-Voice = Voicy.Voices()
+drone = tello.Tello()
+drone.connect()
+drone.get_battery()
 
-def Controller():
-    ret = Voice.Command()
-    if ret == "오른쪽" and "왼쪽":
-        Hand.leftright_Value()
-    elif ret == "위" and "아래":
-        Hand.updown_Value()
-    elif ret == "앞으로" or "뒤로":
-        Hand.forwardback_Value()
+c = Voicy.Voices()
+command = c.Command()
 
-
-
-
+if command == '이륙':
+    drone.takeoff()
+    while True:
+        command = c.Command()
+        if command == '착륙':
+            drone.land()
+        elif command:
+            x = Handy.Hand()
+            x.motion(command)
